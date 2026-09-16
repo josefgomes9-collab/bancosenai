@@ -41,7 +41,23 @@ namespace BancoSENAIAPI.Controllers
                 });
             }
 
-      
+            // R06G - Extensões permitidas
+            string extensao = Path.GetExtension(arquivo.FileName).ToLowerInvariant();
+
+            string[] extensoesPermitidas =
+            {
+                ".pdf",
+                ".jpg",
+                ".png"
+            };
+
+            if (!extensoesPermitidas.Contains(extensao))
+            {
+                return BadRequest(new
+                {
+                    mensagem = "Extensão de arquivo não permitida. Apenas arquivos .pdf, .jpg e .png são aceitos."
+                });
+            }
 
             string pastaCliente = Path.Combine(
                 _caminhoRaiz,
