@@ -1,20 +1,116 @@
+* {
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 body {
-    font-family: Arial, sans-serif;
-    padding: 20px;
+    margin: 20px;
+    background-color: #ffffff;
+    color: #333333;
 }
 
 h1 {
-    color: #003366;
-}
-.form-container {
-    margin-bottom: 30px;
-    background: #f9f9f9;
-    padding: 15px;
-    border-radius: 5px;
+    color: #0d3866;
+    font-size: 26px;
+    margin-bottom: 20px;
+    font-weight: bold;
 }
 
-input {
-    padding: 8px;
-    margin-right: 10px;
-    border: 1px solid #ccc;
+/* Containers de Envio e Busca */
+.form-container,
+.busca-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #f8f9fa;
+    padding: 12px 16px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+}
+
+/* Inputs */
+input[type="number"],
+input[type="file"] {
+    padding: 8px 10px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    font-size: 13px;
+    outline: none;
+}
+
+input[type="number"] {
+    width: 180px;
+}
+
+input[type="file"] {
+    background-color: #ffffff;
+}
+
+/* Botões Gerais */
+button {
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+    button:hover {
+        opacity: 0.85;
+    }
+
+/* Botão Enviar */
+#btenviar {
+    background-color: #28a745;
+    color: #ffffff;
+}
+
+/* Botão Buscar */
+#btbuscar {
+    background-color: #007bff;
+    color: #ffffff;
+}
+
+/* Tabela de Documentos */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+thead {
+    background-color: #0d3866;
+    color: #ffffff;
+}
+
+th {
+    text-align: left;
+    padding: 12px 10px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+td {
+    padding: 12px 10px;
+    border-bottom: 1px solid #e9ecef;
+    font-size: 13px;
+    vertical-align: middle;
+}
+
+/* Botões da Tabela (Ações) */
+.btn-baixar {
+    background-color: #ffc107;
+    color: #000000;
+    padding: 6px 12px;
+    margin-right: 6px;
+    border-radius: 4px;
+}
+
+.btn-excluir {
+    background-color: #dc3545;
+    color: #ffffff;
+    padding: 6px 12px;
+    border-radius: 4px;
 }

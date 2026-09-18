@@ -3,22 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Gestão de documento - Banco Senai</title>
-   <link rel="stylesheet" href="documento.css"/>
-    
+    <title>Gestão de documento - Banco Senai</title>
+    <link rel="stylesheet" href="documento.css" />
 </head>
+
 <body>
 
-    <h1>Getão de Documentos</h1>
-    <p></p>
-    <div class="form-contarner">
-        <input type="number" id="codigoCliente" placeholder="código do cliente" />
-        <input type="file" id="arquivo" />
-        <button id="btenviar" onclick="enviarDocumento()">enviar</button>
+    <h1>Gestão de Documentos</h1>
 
+    <!-- ENVIO DO DOCUMENTO -->
+    <div class="form-container">
+        <input type="number"
+               id="codigoCliente"
+               placeholder="Código do Cliente" />
+
+        <input type="file"
+               id="arquivo" />
+
+        <button id="btenviar" onclick="enviarDocumento()">
+            Enviar
+        </button>
     </div>
 
+    <!-- BUSCA DOS DOCUMENTOS -->
+    <div class="busca-container">
+        <input type="number"
+               id="codigoBusca"
+               placeholder="Código do Cliente" />
+
+        <button id="btbuscar"
+                onclick="buscarDocumentos()">
+            Buscar Documentos
+        </button>
+    </div>
+
+    <!-- TABELA DE DOCUMENTOS -->
+    <table id="tabelaDocumentos">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nome</th>
+                <th>Extensão</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody id="listaDocumentos">
+        </tbody>
+    </table>
+
     <script src="documento.js"></script>
-</body>
-</html>
- 
+</body></html>

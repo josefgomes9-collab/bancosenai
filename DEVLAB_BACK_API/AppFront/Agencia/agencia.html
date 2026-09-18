@@ -1,36 +1,46 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Gestão de Agência - Banco SENAI</title>
-    <link rel="stylesheet" href="agencia.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Gestão de documento - Banco Senai</title>
+    <link rel="stylesheet" href="documento.css" />
 </head>
 <body>
-    <h1>Gestão de Agência</h1>
 
-    <!-- Área de Cadastro e Edição -->
-    <div class="form-container">
-        <input type="number" id="numAgencia" placeholder="Número da Agência">
-        <input type="text" id="cidade" placeholder="Cidade">
-        <input type="text" id="siglaEstado" placeholder="Sigla Estado (Ex: SE)">
-        <button id="btnSalvar" onclick="salvar()">Salvar</button>
-    </div>
+    <h1>Getão de Documentos</h1>
+    <p></p>
 
-    <!-- Tabela de Dados -->
-    <table id="tabelaAgencias">
-        <thead>
-            <tr>
-                <th>Número</th>
-                <th>Cidade</th>
-                <th>Estado</th>
-                <th>Ações</th>
-            </tr>
-        </thead>
-        <tbody id="corpoTabela">
-            <!-- Dados carregados via JS -->
+    <div class="form-contarner">
+
+        <input type="number" id="codigoCliente" placeholder="código do cliente" />
+
+        <input type="file" id="arquivo" />
+
+        <button id="btenviar" onclick="enviarDocumento()">enviar</button>
+</div>
+    <div class="busca-container">
+
+        <input type="number"
+               id="codigoBusca"
+               placeholder="Código do cliente" />
+
+        <button onclick="buscarDocumentos()">
+            Buscar Documentos
+        </button>
+    </div>  <table id="tabelaDocumentos" border="1">
+     <thead>         <tr>
+                <th>Id</th>
+                <th>Nome</th>
+                <th>Extensão</th>
+                <th>Ações</th> </tr></thead>
+
+        <tbody id="listaDocumentos">
         </tbody>
+
     </table>
 
-    <script src="agencia.js"></script>
+    <script src="documento.js"></script>
+
 </body>
 </html>
