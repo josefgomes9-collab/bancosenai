@@ -44,34 +44,18 @@ async function enviarDocumento() {
 
 async function buscarDocumentos() {
 
-    const codigoCliente =
-        document.getElementById("codigoBusca").value;
 
-    if (!codigoCliente) {
-        alert("Informe o código do cliente.");
-        return;
-    }
-
-    const response =
-        await fetch(`${URL_API}/${codigoCliente}`);
-
-    if (!response.ok) {
-        alert("Erro ao buscar documentos.");
-        return;
-    }
+    const response = await fetch(`${URL_API}/${codigoCliente}`);
 
     const documentos = await response.json();
 
-    const lista =
-        document.getElementById("listaDocumentos");
+    const lista = document.getElementById("listaDocumentos");
 
     lista.innerHTML = "";
 
     documentos.forEach(documento => {
 
-        const linha = document.createElement("tr");
-
-        linha.innerHTML = `
+        lista.innerHTML = `
             <td>${documento.id}</td>
 
             <td>${documento.nome}</td>
@@ -94,8 +78,6 @@ async function buscarDocumentos() {
 
             </td>
         `;
-
-        lista.appendChild(linha);
     });
 }
 
