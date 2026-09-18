@@ -21,14 +21,7 @@ namespace BancoSENAIAPI.Controllers
             int codigoCliente,
             IFormFile arquivo)
         {
-            // Validação de arquivo vazio ou inexistente
-            if (arquivo == null || arquivo.Length == 0)
-            {
-                return BadRequest(new
-                {
-                    mensagem = "Nenhum arquivo foi enviado."
-                });
-            }
+          
 
             // R06F - Limite máximo de 2 MB
             const long limiteTamanho = 2 * 1024 * 1024;
