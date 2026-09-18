@@ -1,20 +1,20 @@
-const URL_API = 'https://local:host:7081/api/v1/Documento';
+const URL_API = 'http://localhost:5139/api/v1/Documento';
 
 
 async function enviarDocumento() {
-    const codigoCliente = documento.getElementById("codigoCliente").value;
-    alerta("o código do cliente é" + codigoCliente);
-    const inputArquivo= documento.getElementById("arquivo");
+    const codigoCliente = document.getElementById("codigoCliente").value;
+    const inputArquivo= document.getElementById("arquivo");
     const arquivo = inputArquivo.files[0];
 
-    if (!codigoCliente || arquivo) {
+    if (!codigoCliente || !arquivo) {
         alert("Informe o codigo do cliente e selecione um arquivo")
         return;
     }
 
     const dadosArquivo = new FormData();
     dadosArquivo.append("arquivo", arquivo);
-    const response = await fetch(${ URL_API } / upload / ${ codigoCliente }, {
+
+    const response = await fetch(`${URL_API}/upload/${codigoCliente}` , {
         method: "POST",
         body: dadosArquivo
     });
@@ -28,5 +28,4 @@ async function enviarDocumento() {
         const erro = await response.json();
         ("Erro" + (erro.messagem || "falha ao enviar o documento"));
     }
-}
 }
