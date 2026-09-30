@@ -1,7 +1,7 @@
-﻿using BancoSENAIAPI.Controllers;
-using Microsoft.AspNetCore.Mvc;
+﻿using BancoSENAIAPI.Data;
 using BancoSENAIAPI.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace BancoSENAIAPI.Controllers
 {
@@ -9,17 +9,22 @@ namespace BancoSENAIAPI.Controllers
     [Route("api/v1/[controller]")]
     public class ClienteController : ControllerBase
     {
-        private static List<Cliente> _clientes = new List<Cliente>();
-        private static int _proximoCodigo = 1;
+        private readonly AppDbContext _context;
+
+        public ClienteController(AppDbContext context)
+        {
+            _context = context;
+        }
 
         [HttpGet]
-        public IActionResult ListarTodos()
+        public async Task<IActionResult> ListarTodos()
         {
-            return Ok(_clientes);
+            var clientes = await _context.Cliente.ToListAsync();
+            return Ok(clientes);
         }
 
         [HttpPost]
-        public IActionResult Cadastrar([FromBody] Cliente novoCliente)
+        public async Task<IActionResult> Cadastrar([FromBody] Cliente novoCliente)
         {
             if (novoCliente == null)
                 return BadRequest(new { message = "Dados inválidos." });
@@ -30,21 +35,24 @@ namespace BancoSENAIAPI.Controllers
             if (string.IsNullOrWhiteSpace(novoCliente.CPF))
                 return BadRequest(new { message = "CPF é obrigatório." });
 
-            if (_clientes.Any(c => c.CPF == novoCliente.CPF))
+            if (await _context.Cliente.AnyAsync(c => c.CPF == novoCliente.CPF))
                 return BadRequest(new { message = "Já existe um cliente com este CPF." });
 
-            novoCliente.CodigoCliente = _proximoCodigo++;
+            novoCliente.CodigoCliente = 0;
 
             if (novoCliente.NumeroAgencia == 0) novoCliente.NumeroAgencia = 10;
 
-            _clientes.Add(novoCliente);
+            await _context.Cliente.AddAsync(novoCliente);
+            await _context.SaveChangesAsync();
+
             return Created("", novoCliente);
         }
 
         [HttpPut("{codigo}")]
-        public IActionResult Atualizar(int codigo, [FromBody] Cliente clienteAtualizado)
+        public async Task<IActionResult> Atualizar(int codigo, [FromBody] Cliente clienteAtualizado)
         {
-            var clienteExistente = _clientes.FirstOrDefault(c => c.CodigoCliente == codigo);
+            var clienteExistente = await _context.Cliente.FirstOrDefaultAsync(c => c.CodigoCliente == codigo);
+
             if (clienteExistente == null)
                 return NotFound(new { message = "Cliente não encontrado." });
 
@@ -63,24 +71,33 @@ namespace BancoSENAIAPI.Controllers
             clienteExistente.Cidade = clienteAtualizado.Cidade;
             clienteExistente.Estado = clienteAtualizado.Estado;
 
+            await _context.SaveChangesAsync();
+
             return NoContent();
         }
 
         [HttpGet("{codigo}")]
-        public IActionResult ConsultarPorCodigo(int codigo)
+        public async Task<IActionResult> ConsultarPorCodigo(int codigo)
         {
-            var cliente = _clientes.FirstOrDefault(c => c.CodigoCliente == codigo);
-            if (cliente == null) return NotFound(new { message = "Cliente não encontrado." });
+            var cliente = await _context.Cliente.FirstOrDefaultAsync(c => c.CodigoCliente == codigo);
+
+            if (cliente == null)
+                return NotFound(new { message = "Cliente não encontrado." });
+
             return Ok(cliente);
         }
 
         [HttpDelete("{codigo}")]
-        public IActionResult Excluir(int codigo)
+        public async Task<IActionResult> Excluir(int codigo)
         {
-            var cliente = _clientes.FirstOrDefault(c => c.CodigoCliente == codigo);
-            if (cliente == null) return NotFound(new { message = "Cliente não encontrado." });
+            var cliente = await _context.Cliente.FirstOrDefaultAsync(c => c.CodigoCliente == codigo);
 
-            _clientes.Remove(cliente);
+            if (cliente == null)
+                return NotFound(new { message = "Cliente não encontrado." });
+
+            _context.Cliente.Remove(cliente);
+            await _context.SaveChangesAsync();
+
             return Ok(new { message = "Cliente excluído com sucesso." });
         }
     }
