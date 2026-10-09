@@ -1,13 +1,23 @@
 ﻿using BancoSENAIAPI.Data;
 using BancoSENAIAPI.Models;
 using Microsoft.AspNetCore.Mvc;
+<<<<<<< Updated upstream
 using Microsoft.EntityFrameworkCore;
+=======
+using BancoSENAIAPI.Services;
+using Microsoft.AspNetCore.Authorization;
+>>>>>>> Stashed changes
 
 namespace BancoSENAIAPI.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
+<<<<<<< Updated upstream
     public class ClienteController : ControllerBase
+=======
+    [Authorize]
+    public class ClienteController : ControllerBase 
+>>>>>>> Stashed changes
     {
         private readonly AppDbContext _context;
 

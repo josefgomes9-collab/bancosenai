@@ -1,4 +1,5 @@
 ﻿using BancoSENAIAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using BancoSENAIAPI.Data;
 using Microsoft.EntityFrameworkCore;
@@ -6,6 +7,7 @@ namespace BancoSENAIAPI.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
+    [Authorize]
     public class AgenciaController : ControllerBase
     {
         private readonly AppDbContext _context;
