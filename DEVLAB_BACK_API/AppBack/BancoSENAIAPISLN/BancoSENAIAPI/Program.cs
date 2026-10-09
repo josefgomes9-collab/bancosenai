@@ -1,11 +1,45 @@
 using Microsoft.OpenApi.Models;
+<<<<<<< Updated upstream
 using Microsoft.EntityFrameworkCore;
 using BancoSENAIAPI.Data;
 using Microsoft.Extensions.Options;
+=======
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using BancoSENAIAPI.Services;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authentication;
+using System.Text;
+>>>>>>> Stashed changes
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddScoped<TokenService>();
+
+var jwtSection = builder.Configuration.GetSection("Jwt");
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = jwtSection["Issuer"],
+        ValidAudience = jwtSection["Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSection["Key"]))
+    };
+});
+
+builder.Services.AddAuthorization();
+
 
 builder.Services.AddControllers();
 
@@ -25,7 +59,27 @@ builder.Services.AddSwaggerGen(c =>
         Version = "v1",
         Description = "API Gestão Financeira e Integração Clientes."
     });
+    c.AddSecurityDefinition("Berer" , new OpenApiSecurityScheme
+    { 
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "Jwt",
+        In = ParameterLocation.Header,
+        Description = "Informe Apenas o token Jwt"
 });
+c.AddSecurityRequirement(new OpenApiSecurityRequirement
+{
+    {
+       new OpenApiSecurityScheme
+       {
+           Reference = new OpenApiReference {Type = ReferenceType.SecurityScheme , Id = "Bearer" }
+       },
+       Array.Empty<string>()
+    }
+
+});
+
 
 builder.Services.AddCors(options =>
 {
